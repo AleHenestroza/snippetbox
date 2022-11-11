@@ -4,6 +4,7 @@ You need to create a self-signed TLS certificate inside the folder ./tls
 To do this, run the following commands (starting from the project's root directory)
 
 ```
+mkdir tls
 cd tls
 go run /path/to/your/go/standard/library/src/crypto/tls/generate_cert.go --rsa-bits=2048 --host=localhost
 ```
