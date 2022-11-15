@@ -46,3 +46,8 @@ func (m *UserModel) Exists(id int) (bool, error) {
 		return false, nil
 	}
 }
+
+func (m *UserModel) PasswordUpdate(id int, currentPassowrd, newPassword string) error {
+	// TODO: Make a proper implementation of this mocked method.
+	return nil
+}

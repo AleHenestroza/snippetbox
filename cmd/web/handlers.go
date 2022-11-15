@@ -285,6 +285,25 @@ func (app *application) accountPasswordUpdatePost(w http.ResponseWriter, r *http
 		app.render(w, http.StatusOK, "password.gohtml", data)
 		return
 	}
+
+	userID := app.sessionManager.GetInt(r.Context(), "authenticatedUserID")
+	err = app.users.PasswordUpdate(userID, form.CurrentPassword, form.NewPassword)
+	if err != nil {
+		if errors.Is(err, models.ErrInvalidCredentials) {
+			form.AddFieldError("currentPassword", "Current Password is incorrect")
+
+			data := app.newTemplateData(r)
+			data.Form = form
+
+			app.render(w, http.StatusOK, "password.gohtml", data)
+		} else {
+			app.serverError(w, err)
+		}
+		return
+	}
+
+	app.sessionManager.Put(r.Context(), "flash", "Your password has been updated!")
+	http.Redirect(w, r, "/account/view", http.StatusSeeOther)
 }
 
 func ping(w http.ResponseWriter, r *http.Request) {
