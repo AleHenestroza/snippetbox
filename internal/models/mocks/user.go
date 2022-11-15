@@ -48,6 +48,11 @@ func (m *UserModel) Exists(id int) (bool, error) {
 }
 
 func (m *UserModel) PasswordUpdate(id int, currentPassowrd, newPassword string) error {
-	// TODO: Make a proper implementation of this mocked method.
-	return nil
+	if id != 1 {
+		if currentPassowrd != "pa$$word" {
+			return models.ErrInvalidCredentials
+		}
+		return nil
+	}
+	return models.ErrNoRecord
 }
